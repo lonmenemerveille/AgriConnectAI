@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — AgriConnect AI</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <section class="auth-visual">
+        <a class="auth-logo" href="index.html">🌿 AgriConnect<span>AI</span></a>
+        <div class="auth-visual-content">
+            <div class="auth-logo">PLATEFORME AGRICOLE INTELLIGENTE</div>
+            <h1>Bienvenue sur<br><span>AgriConnect AI.</span></h1>
+            <p>Retrouvez vos produits, vos commandes, vos livraisons et vos outils professionnels depuis un seul espace.</p>
+            <div class="auth-points">
+                <div>🤖 Matching intelligent des transports</div>
+                <div>📍 Suivi des livraisons par géolocalisation</div>
+                <div>🌾 Connexion directe avec les acteurs agricoles</div>
+            </div>
+        </div>
+        <div class="auth-footer">© 2026 AgriConnect AI</div>
+    </section>
+
+    <section class="auth-panel">
+        <div class="form-wrap">
+            <a class="back" href="index.html">← Retour à l'accueil</a>
+            <h2>Se connecter</h2>
+            <p class="subtitle">Accédez à votre espace AgriConnect AI.</p>
+
+            <form id="loginForm">
+                <div class="field">
+                    <label>Adresse e-mail</label>
+                    <input id="email" type="email" placeholder="exemple@email.com" required>
+                </div>
+
+                <div class="field">
+                    <label>Mot de passe</label>
+                    <div class="password-row">
+                        <input id="loginPassword" type="password" placeholder="Votre mot de passe" required>
+                        <button type="button" onclick="togglePassword('loginPassword', this)">👁️</button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember">
+                        <input type="checkbox"> Se souvenir de moi
+                    </label>
+                    <a class="forgot" href="#" onclick="toast('La récupération du mot de passe sera connectée au backend.')">
+                        Mot de passe oublié ?
+                    </a>
+                </div>
+
+                <button class="submit" type="submit">Se connecter</button>
+            </form>
+
+            <div class="divider">OU</div>
+
+            <div class="switch">
+                Vous n'avez pas encore de compte ?
+                <a href="register.html">Créer un compte</a>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script src="js/auth.js"></script>
+</body>
+</html>

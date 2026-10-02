@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Créer un compte — AgriConnect AI
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/auth.css">
+
+</head>
+
+
+<body>
+
+
+<div class="auth-page">
+
+
+    <!-- =========================
+         PARTIE VISUELLE
+    ========================= -->
+
+    <section class="auth-visual">
+
+
+        <a
+            class="auth-logo"
+            href="index.html">
+
+            🌿 AgriConnect
+            <span>AI</span>
+
+        </a>
+
+
+        <div class="auth-visual-content">
+
+
+            <div class="auth-logo">
+
+                REJOIGNEZ
+                L'ÉCOSYSTÈME
+
+            </div>
+
+
+            <h1>
+
+                Votre activité agricole,
+                <br>
+
+                <span>
+                    connectée.
+                </span>
+
+            </h1>
+
+
+            <p>
+
+                Choisissez votre profil
+                et accédez à un espace
+                adapté à vos besoins.
+
+            </p>
+
+
+            <div class="auth-points">
+
+
+                <div>
+
+                    👨🏾‍🌾 Producteur —
+                    vendre et gérer vos produits
+
+                </div>
+
+
+                <div>
+
+                    🛒 Acheteur —
+                    rechercher et commander
+
+                </div>
+
+
+                <div>
+
+                    🚚 Transporteur —
+                    gérer missions et livraisons
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="auth-footer">
+
+            © 2026 AgriConnect AI
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FORMULAIRE
+    ========================= -->
+
+    <section class="auth-panel">
+
+
+        <div class="form-wrap">
+
+
+            <a
+                class="back"
+                href="index.html">
+
+                ← Retour à l'accueil
+
+            </a>
+
+
+            <h2>
+                Créer un compte
+            </h2>
+
+
+            <p class="subtitle">
+
+                Choisissez d'abord
+                votre profil professionnel.
+
+            </p>
+
+
+       <form id="registerForm">
+
+    <div class="role-grid">
+        <label class="role" onclick="chooseRole(this)">
+            <input type="radio" name="role" value="acheteur">
+            <span>🛒</span> Acheteur
+        </label>
+        <label class="role" onclick="chooseRole(this)">
+            <input type="radio" name="role" value="producteur">
+            <span>🌾</span> Producteur
+        </label>
+        <label class="role" onclick="chooseRole(this)">
+            <input type="radio" name="role" value="transporteur">
+            <span>🚚</span> Transporteur
+        </label>
+    </div>
+
+    <div id="roleNotice" class="notice">
+        Veuillez sélectionner un profil avant de continuer.
+    </div>
+
+    <div class="field">
+        <label>Nom complet</label>
+        <input id="nom" type="text" placeholder="Votre nom et prénom" required>
+    </div>
+
+    <div class="field">
+        <label>Adresse e-mail</label>
+        <input id="email" type="email" placeholder="exemple@email.com" required>
+    </div>
+
+    <div class="field">
+        <label>Numéro de téléphone</label>
+        <input id="telephone" type="tel" placeholder="+237 6XX XX XX XX" required>
+    </div>
+
+    <div class="field">
+        <label>Mot de passe</label>
+        <div class="password-row">
+            <input id="registerPassword" type="password" placeholder="Minimum 8 caractères" minlength="8" required>
+            <button type="button" onclick="togglePassword('registerPassword', this)">👁️</button>
+        </div>
+    </div>
+
+    <div id="locationNotice" class="notice" style="display:none;">
+        Localisation en cours de détection...
+    </div>
+
+    <button class="submit" type="submit">Créer mon compte</button>
+
+</form>
+
+            <div class="divider">
+                OU
+            </div>
+
+
+            <div class="switch">
+
+                Vous avez déjà
+                un compte ?
+
+                <a href="login.html">
+
+                    Se connecter
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script src="js/auth.js"></script>
+
+</body>
+</html>4

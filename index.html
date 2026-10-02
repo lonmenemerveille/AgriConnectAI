@@ -1,0 +1,2067 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="AgriConnect AI - plateforme intelligente reliant producteurs, acheteurs et transporteurs agricoles.">
+
+    <title>AgriConnect AI - Plateforme agricole intelligente</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- =========================================================
+     BOUTON THÈME
+========================================================= -->
+<button
+    id="themeToggleBtn"
+    type="button"
+    aria-label="Changer de thème"
+    style="
+        position: fixed;
+        top: 130px;
+        right: 20px;
+        z-index: 9999;
+        background: #ffffff;
+        border: 2px solid #2e7d32;
+        font-size: 1.5rem;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    ">
+    🌙
+</button>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+<header class="site-header">
+
+    <div class="container nav">
+
+        <!-- LOGO -->
+        <a class="brand" href="index.html">
+
+            <span class="brand-mark">🌿</span>
+
+            <span>
+                <b>AgriConnect</b>
+                <em>AI</em>
+
+                <small>
+                    L'intelligence au service de l'agriculture
+                </small>
+            </span>
+
+        </a>
+
+
+        <!-- NAVIGATION -->
+        <nav class="main-nav" aria-label="Navigation principale">
+
+            <a class="active" href="index.html">
+                Accueil
+            </a>
+
+            <a href="#produits">
+                Produits
+            </a>
+
+            <a href="offres.html">
+                Offres
+            </a>
+
+            <a href="#Producteur" id="menuBtnProducteur">
+                Producteur
+            </a>
+
+            <a href="index.html#transport">
+                Transport
+            </a>
+
+            <a href="#fonctionnement">
+                Comment ça marche ?
+            </a>
+
+            <a href="#apropos">
+                À propos
+            </a>
+
+            <a href="#contact">
+                Contact
+            </a>
+
+        </nav>
+
+
+        <!-- ACTIONS -->
+        <div class="nav-actions">
+
+            <a
+                class="btn btn-outline"
+                href="login.html">
+                Se connecter
+            </a>
+
+            <a
+                class="btn btn-green"
+                href="register.html">
+                Créer un compte
+            </a>
+
+        </div>
+
+
+        <!-- =====================================================
+             PANIER UNIQUE
+        ====================================================== -->
+        <div
+            class="nav-cart-container"
+            style="
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px;
+                z-index: 100000;
+            ">
+
+            <button
+                id="miniPanierBtn"
+                type="button"
+                aria-label="Ouvrir le panier"
+                style="
+                    background: none;
+                    border: none;
+                    font-size: 1.7rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                ">
+
+                🛒
+
+                <span
+                    id="panierBadge"
+                    style="
+                        position: absolute;
+                        top: -5px;
+                        right: -5px;
+                        background: #d32f2f;
+                        color: #ffffff;
+                        font-size: 0.75rem;
+                        font-weight: bold;
+                        min-width: 18px;
+                        height: 18px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border: 2px solid #ffffff;
+                        line-height: 1;
+                    ">
+                    0
+                </span>
+
+            </button>
+
+
+            <!-- VOLET PANIER -->
+            <div
+                id="dropdownPanier"
+                style="
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    width: 330px;
+                    background: #ffffff;
+                    border: 1px solid #dcdcdc;
+                    border-radius: 8px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+                    display: none;
+                    flex-direction: column;
+                    overflow: hidden;
+                    color: #333333;
+                    margin-top: 12px;
+                    z-index: 200000;
+                ">
+
+                <div
+                    style="
+                        padding: 12px 15px;
+                        background: #e8f5e9;
+                        font-weight: bold;
+                        border-bottom: 1px solid #c8e6c9;
+                        color: #1b5e20;
+                    ">
+
+                    🛍️ Mes Récoltes Sélectionnées
+
+                </div>
+
+
+                <div
+                    id="listeElementsPanier"
+                    style="
+                        max-height: 280px;
+                        overflow-y: auto;
+                        padding: 12px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                    ">
+
+                    <p
+                        id="panierVideMessage"
+                        style="
+                            margin: 30px 0;
+                            text-align: center;
+                            color: #888;
+                            font-style: italic;
+                            font-size: 0.85rem;
+                        ">
+
+                        Votre panier est vide.
+
+                    </p>
+
+                </div>
+
+
+                <!-- TOTAL -->
+                <div
+                    style="
+                        padding: 15px;
+                        border-top: 1px solid #eeeeee;
+                        background: #fbfbfb;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 12px;
+                    ">
+
+                    <div
+                        style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        ">
+
+                        <span>
+                            Total Commande :
+                        </span>
+
+                        <strong
+                            id="panierTotalPrix"
+                            style="
+                                color: #e65100;
+                                font-size: 1.1rem;
+                            ">
+                            0 FCFA
+                        </strong>
+
+                    </div>
+
+
+                    <button
+                        id="btnOuvrirPaiement"
+                        type="button"
+                        style="
+                            width: 100%;
+                            background: #2e7d32;
+                            color: #ffffff;
+                            border: none;
+                            padding: 12px;
+                            border-radius: 6px;
+                            font-weight: bold;
+                            cursor: pointer;
+                        ">
+
+                        Valider et Payer 💳
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     CONTENU PRINCIPAL
+========================================================= -->
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+<section class="hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-inner">
+
+        <div class="hero-copy">
+
+            <span class="eyebrow">
+                PLATEFORME INTELLIGENTE
+            </span>
+
+            <h1>
+                Connectons l’agriculture,
+                <br>
+                <span>créons l’avenir.</span>
+            </h1>
+
+            <p>
+                AgriConnect AI relie producteurs,
+                acheteurs et transporteurs pour une
+                agriculture plus rentable, plus connectée
+                et plus durable.
+            </p>
+</section>
+
+
+<!-- =========================================================
+     STATISTIQUES
+========================================================= -->
+<section class="stats-wrap">
+
+    <div class="container stats">
+
+        <div>
+            <strong>+1 200</strong>
+            <span>Producteurs actifs</span>
+        </div>
+
+        <div>
+            <strong>+3 500</strong>
+            <span>Acheteurs actifs</span>
+        </div>
+
+        <div>
+            <strong>+5 000</strong>
+            <span>Produits disponibles</span>
+        </div>
+
+        <div>
+            <strong>+80</strong>
+            <span>Transporteurs partenaires</span>
+        </div>
+
+        <div>
+            <strong>4.8/5</strong>
+            <span>Note moyenne</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PROMOTIONS
+========================================================= -->
+<div
+    class="promo-banner-container"
+    style="
+        background: #e8f5e9;
+        padding: 16px 0;
+        overflow: hidden;
+        border-bottom: 2px solid #c8e6c9;
+    ">
+
+    <div
+        id="promoMarquee"
+        style="
+            display: flex;
+            gap: 60px;
+            white-space: nowrap;
+            width: max-content;
+            animation: scrollMarquee 28s linear infinite;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #1b5e20;
+        ">
+
+        <span>
+            🔥 PROMO DU JOUR : Banane Douce de Mbanga à -15% sur les lots de 5 Régimes ! 🍌
+        </span>
+
+        <span>
+            ⚡ OFFRE EXCLUSIVE : Cacao Excel de Foumbot disponible immédiatement pour acheminement routier ! 🍫
+        </span>
+
+        <span>
+            🌽 SPÉCIAL COOPÉRATIVE : Sac de Maïs Sec de Mbalmayo, tarification dégressive au-delà de 10 Sacs ! 🌾
+        </span>
+
+    </div>
+
+</div> 
+<br> 
+ <!-- RECHERCHE -->
+<section class="search">
+        <div class="search-box">
+
+            <span class="search-icon">
+                ⌕
+            </span>
+
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="Rechercher un produit, une catégorie, un producteur..."
+            >
+
+            <select id="category">
+
+                <option value="">
+                    Toutes catégories
+                </option>
+
+                <option value="Fruits">
+                    Fruits
+                </option>
+
+                <option value="Légumes">
+                    Légumes
+                </option>
+
+                <option value="Céréales">
+                    Céréales
+                </option>
+
+                <option value="Tubercules">
+                    Tubercules
+                </option>
+
+                <option value="Légumineuses">
+                    Légumineuses
+                </option>
+
+                <option value="Produits transformés">
+                    Produits transformés
+                </option>
+
+            </select>
+
+            <button
+                id="searchBtn"
+                type="button">
+
+                Rechercher
+
+            </button>
+
+        </div>
+    </section>
+    <br>
+<br>
+<!-- =========================================================
+     PRODUITS
+========================================================= -->
+<section
+    class="products section"
+    id="produits">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <span class="section-kicker">
+                    CATALOGUE AGRICOLE
+                </span>
+
+                <h2>
+                    Les produits disponibles 🌱
+                </h2>
+
+                <p>
+                    Découvrez les produits de qualité
+                    disponibles sur la plateforme.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- UN SEUL PRODUCT GRID -->
+        <div
+            class="product-grid"
+            id="productGrid">
+
+            <p
+                id="loadingMessage"
+                style="
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    color: #666;
+                    padding: 20px;
+                ">
+
+                Chargement du catalogue depuis la base de données AgriConnect...
+
+            </p>
+
+        </div>
+
+
+        <div
+            id="noResults"
+            class="no-results"
+            hidden>
+
+            Aucun produit ne correspond
+            à votre recherche.
+
+        </div>
+
+    </div>
+
+</section>
+
+<section>
+
+        <!-- CARTE IA -->
+<aside class="ai-card" style="
+    background: #F7F3EA;
+    border-radius: 24px;
+    overflow: hidden;
+    color: #1F3D2B;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e5ddc8;
+    box-shadow: 0 4px 24px rgba(31,61,43,0.08);
+">
+
+    <!-- ZONE IMAGE RÉELLE : remplace l'URL par ta photo de transport/livraison -->
+    <div style="
+        height: 500px; 
+        width: 100%;
+        background-image: url('images/camions.jpg'), linear-gradient(135deg, #E8E2D0, #F7F3EA);
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    ">
+        <div class="ai-pill" style="
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(255,255,255,0.9);
+            color: #1F3D2B;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: 1px solid #e5ddc8;
+        ">
+            Intelligence artificielle
+        </div>
+    </div>
+
+    <div style="padding: 28px; display: flex; flex-direction: column; flex: 1;">
+
+        <h3 style="
+            font-family: 'Fraunces', serif;
+            font-size: 1.4rem;
+            line-height: 1.25;
+            margin: 0 0 10px;
+            color: #1F3D2B;
+        ">
+            Matching optimal de transport
+        </h3>
+
+        <p style="
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #4C7A3D;
+            margin: 0 0 10px;
+        ">
+            Livraison plus rapide et efficace
+        </p>
+
+        <p style="
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #6b7266;
+            margin: 0 0 24px;
+        ">
+            Notre moteur intelligent analyse la distance, la
+            disponibilité, les zones d'intervention et la
+            capacité du véhicule.
+        </p>
+
+        <!-- TRACÉ DE ROUTE STYLE CARTE GPS -->
+<div style="
+    position: relative;
+    height: 100px;
+    border-radius: 14px;
+    background: #EFEAE0;
+    margin-bottom: 24px;
+    padding: 18px;
+">
+    <svg viewBox="0 0 260 60" style="width: 100%; height: 100%;" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M 30 42 C 90 10, 160 55, 220 20"
+            stroke="#4C7A3D"
+            stroke-width="3"
+            fill="none"
+            stroke-linecap="round"
+            stroke-dasharray="1 10"
+        />
+
+        <!-- Icône camion (départ) -->
+        <g transform="translate(6, 32)">
+            <rect x="0" y="4" width="16" height="10" rx="1.5" fill="#1F3D2B"/>
+            <rect x="16" y="7" width="8" height="7" rx="1" fill="#1F3D2B"/>
+            <circle cx="5" cy="16" r="2.3" fill="#1F3D2B"/>
+            <circle cx="19" cy="16" r="2.3" fill="#1F3D2B"/>
+        </g>
+
+        <!-- Icône destination (repère de lieu) -->
+        <g transform="translate(212, 6)">
+            <path d="M8 0C3.6 0 0 3.5 0 7.8 0 13.5 8 22 8 22s8-8.5 8-14.2C16 3.5 12.4 0 8 0z" fill="#BF5B2E"/>
+            <circle cx="8" cy="7.8" r="3" fill="#fff"/>
+        </g>
+    </svg>
+
+    <span style="
+        position: absolute;
+        bottom: 10px;
+        left: 18px;
+        font-family: 'Work Sans', sans-serif;
+        font-size: 0.72rem;
+        color: #6b7266;
+        font-weight: 600;
+    ">
+        Zone de collecte
+    </span>
+
+    <span style="
+        position: absolute;
+        top: 10px;
+        right: 18px;
+        font-family: 'Work Sans', sans-serif;
+        font-size: 0.72rem;
+        color: #6b7266;
+        font-weight: 600;
+    ">
+        Acheteur
+    </span>
+</div>
+        <button
+            class="mini-btn"
+            type="button"
+            data-scroll="#transport"
+            style="
+                font-family: 'Work Sans', sans-serif;
+                background: #1F3D2B;
+                color: #F7F3EA;
+                border: none;
+                padding: 13px 20px;
+                border-radius: 10px;
+                font-weight: 600;
+                font-size: 0.9rem;
+                cursor: pointer;
+                margin-top: auto;
+                align-self: flex-start;
+            "
+        >
+            En savoir plus →
+        </button>
+
+    </div>
+
+</aside>
+<div id="explicationIA" style="
+    display: none;
+    background: #F7F3EA;
+    border-radius: 28px;
+    padding: 56px 48px;
+    margin-top: 40px;
+">
+
+    <!-- EN-TÊTE -->
+    <div style="max-width: 640px; margin: 0 auto 48px auto; text-align: center;">
+        <p style="
+            font-family: 'Work Sans', sans-serif;
+            color: #BF5B2E;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        ">
+            Le rôle de l'intelligence artificielle
+        </p>
+
+        <h3 style="
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            line-height: 1.25;
+            color: #1F3D2B;
+            margin-bottom: 18px;
+        ">
+            Le bon transporteur, au bon endroit, au bon moment
+        </h3>
+
+        <p style="
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #4a544a;
+        ">
+            À chaque commande, notre moteur intelligent analyse
+            la situation en temps réel pour proposer la solution
+            de livraison la plus rapide et la plus économique.
+        </p>
+    </div>
+
+    <!-- TROIS ÉTAPES ILLUSTRÉES -->
+    <div style="
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    ">
+
+        <!-- ÉTAPE 1 -->
+        <div style="
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #e5ddc8;
+        ">
+            <div style="
+                height: 160px;
+                background-image: url('images/ia transport.jpg'), linear-gradient(135deg, #E8E2D0, #F7F3EA);
+                background-size: cover;
+                background-position: center;
+            "></div>
+
+            <div style="padding: 24px;">
+                <span style="
+                    display: inline-block;
+                    background: #E8F0E6;
+                    color: #4C7A3D;
+                    font-family: 'Work Sans', sans-serif;
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    margin-bottom: 14px;
+                ">
+                    Étape 1
+                </span>
+
+                <h4 style="
+                    font-family: 'Fraunces', serif;
+                    font-size: 1.15rem;
+                    color: #1F3D2B;
+                    margin: 0 0 10px;
+                ">
+                    Calcul de la distance
+                </h4>
+
+                <p style="
+                    font-family: 'Work Sans', sans-serif;
+                    font-size: 0.88rem;
+                    line-height: 1.6;
+                    color: #6b7266;
+                ">
+                    L'IA mesure la distance réelle entre la zone de
+                    collecte du producteur et la localisation de
+                    l'acheteur.
+                </p>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 2 -->
+        <div style="
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #e5ddc8;
+        ">
+            <div style="
+                height: 160px;
+                background-image: url('images/images transport.jpg'), linear-gradient(135deg, #E8E2D0, #F7F3EA);
+                background-size: cover;
+                background-position: center;
+            "></div>
+
+            <div style="padding: 24px;">
+                <span style="
+                    display: inline-block;
+                    background: #E8F0E6;
+                    color: #4C7A3D;
+                    font-family: 'Work Sans', sans-serif;
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    margin-bottom: 14px;
+                ">
+                    Étape 2
+                </span>
+
+                <h4 style="
+                    font-family: 'Fraunces', serif;
+                    font-size: 1.15rem;
+                    color: #1F3D2B;
+                    margin: 0 0 10px;
+                ">
+                    Sélection du transporteur
+                </h4>
+
+                <p style="
+                    font-family: 'Work Sans', sans-serif;
+                    font-size: 0.88rem;
+                    line-height: 1.6;
+                    color: #6b7266;
+                ">
+                    Elle identifie le transporteur le plus proche,
+                    disponible, et dont le véhicule a la capacité
+                    adaptée à la commande.
+                </p>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 3 -->
+        <div style="
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #e5ddc8;
+        ">
+            <div style="
+                height: 160px;
+                background-image: url('images/suivi.jpg'), linear-gradient(135deg, #E8E2D0, #F7F3EA);
+                background-size: cover;
+                background-position: center;
+            "></div>
+
+            <div style="padding: 24px;">
+                <span style="
+                    display: inline-block;
+                    background: #E8F0E6;
+                    color: #4C7A3D;
+                    font-family: 'Work Sans', sans-serif;
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    margin-bottom: 14px;
+                ">
+                    Étape 3
+                </span>
+
+                <h4 style="
+                    font-family: 'Fraunces', serif;
+                    font-size: 1.15rem;
+                    color: #1F3D2B;
+                    margin: 0 0 10px;
+                ">
+                    Suivi en temps réel
+                </h4>
+
+                <p style="
+                    font-family: 'Work Sans', sans-serif;
+                    font-size: 0.88rem;
+                    line-height: 1.6;
+                    color: #6b7266;
+                ">
+                    Le producteur et l'acheteur suivent la
+                    progression de la livraison jusqu'à la
+                    remise finale.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</section>
+<br>
+<br>
+
+<!-- =========================================================
+     ESPACE PRODUCTEUR
+========================================================= -->
+<section
+    class="producer-section"
+    id="Producteur"
+    style="
+        padding: 60px 0;
+        background-color: #f4f7f3;
+    ">
+
+    <div
+        class="container"
+        style="
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        ">
+
+
+        <!-- VITRINE PUBLIQUE -->
+        <div
+            id="vitrineProducteurPublic"
+            style="
+                display: block;
+                margin-bottom: 40px;
+            ">
+
+            <div
+                style="
+                    text-align: center;
+                    max-width: 800px;
+                    margin: 0 auto 40px auto;
+                ">
+
+                <span
+                    style="
+                        color: #2e7d32;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        font-size: 0.8rem;
+                        letter-spacing: 1px;
+                        background: #e8f5e9;
+                        padding: 5px 12px;
+                        border-radius: 20px;
+                    ">
+
+                    Découvrez le rôle de Producteur 🌾
+
+                </span>
+
+                <h2>
+                    Valoriser le Travail de la Terre au Cameroun
+                </h2>
+
+                <p>
+                    Le producteur AgriConnect AI est au cœur
+                    de notre chaîne de valeur. Grâce à son
+                    espace sécurisé, il peut publier des offres
+                    de vente, gérer ses stocks dans la base de
+                    données et suivre ses indicateurs financiers.
+                </p>
+
+            </div>
+
+
+            <!-- CARTES PRODUCTEUR -->
+            <div
+                style="
+                    display: grid;
+                    grid-template-columns:
+                        repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 20px;
+                ">
+
+                <div
+                    class="img-interactive-hover"
+                    style="
+                        height: 220px;
+                        border-radius: 12px;
+                        background-image:
+                            url('http://localhost:5000/images/producer.jpg');
+                        background-size: cover;
+                        background-position: center;
+                    ">
+
+                    <div>
+                        <strong>
+                            Récoltes Éco-Responsables
+                        </strong>
+
+                        <small>
+                            Soutien aux coopératives et bassins locaux.
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="img-interactive-hover"
+                    style="
+                        height: 220px;
+                        border-radius: 12px;
+                        background-image:
+                            url('http://localhost:5000/images/default.jpg');
+                        background-size: cover;
+                        background-position: center;
+                    ">
+
+                    <div>
+                        <strong>
+                            Conditionnement Maîtrisé
+                        </strong>
+
+                        <small>
+                            Tri méticuleux pour les marchés.
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="img-interactive-hover"
+                    style="
+                        height: 220px;
+                        border-radius: 12px;
+                        background-image:
+                            url('http://localhost:5000/images/african_transporteur.jpg');
+                        background-size: cover;
+                        background-position: center;
+                    ">
+
+                    <div>
+                        <strong>
+                            Prise en Charge Transport
+                        </strong>
+
+                        <small>
+                            Connexion avec la flotte logistique.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACCÈS PRODUCTEUR -->
+            <div
+                style="
+                    text-align: center;
+                    margin-top: 30px;
+                ">
+
+                <a
+                    href="producer.html"
+                    id="btnAccederOutilsProducteur"
+                    style="
+                        display: inline-block;
+                        background-color: #2e7d32;
+                        color: #ffffff;
+                        text-decoration: none;
+                        padding: 15px 35px;
+                        border-radius: 8px;
+                        font-weight: bold;
+                    ">
+
+                    Accéder aux outils de gestion agricole 🔐
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLEAU DE BORD PRODUCTEUR -->
+        <div
+            id="tableauDeBordProducteurPrive"
+            style="display: none;">
+
+            <div
+                style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 35px;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                ">
+
+                <h3>
+                    Mon Espace de Vente Actif
+                </h3>
+
+                <div
+                    id="boxNotificationProducteur">
+
+                    🔔
+
+                    <span id="pastilleRougeNotif"></span>
+
+                    <small id="notifTexteProd">
+                        1 Acheteur sollicite un acheminement
+                        de vos récoltes !
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 30px;
+                ">
+
+
+                <!-- FORMULAIRE PRODUIT -->
+                <div
+                    style="
+                        flex: 1;
+                        min-width: 320px;
+                        background: #ffffff;
+                        padding: 30px;
+                        border-radius: 16px;
+                    ">
+
+                    <h4>
+                        🚀 Déposer une récolte sur le marché
+                    </h4>
+
+                    <form
+                        id="addProductForm"
+                        style="
+                            display: flex;
+                            flex-direction: column;
+                            gap: 18px;
+                        ">
+
+                        <label>
+                            NOM DU PRODUIT :
+                            <input
+                                type="text"
+                                id="prodNom"
+                                placeholder="Ex : Banane Douce de Mbanga"
+                                required>
+                        </label>
+
+
+                        <label>
+                            CATÉGORIE :
+                            <select id="prodCat">
+                                <option value="Fruit">Fruit</option>
+                                <option value="Légume-Fruit">
+                                    Légume-Fruit
+                                </option>
+                            </select>
+                        </label>
+
+
+                        <label>
+                            BASSIN LOCAL :
+                            <select id="prodBassin">
+                                <option value="Mbanga">Mbanga</option>
+                                <option value="Foumbot">Foumbot</option>
+                            </select>
+                        </label>
+
+
+                        <label>
+                            CONDITIONNEMENT :
+                            <input
+                                type="text"
+                                id="prodFormat"
+                                placeholder="Ex : Sac de 50 Kg"
+                                required>
+                        </label>
+
+
+                        <label>
+                            PRIX UNITAIRE (FCFA) :
+                            <input
+                                type="number"
+                                id="prodPrix"
+                                min="100"
+                                placeholder="Ex : 8500"
+                                required>
+                        </label>
+
+
+                        <button
+                            type="submit"
+                            id="btnPublierOffre">
+
+                            Publier l'offre de vente 🚀
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- STOCKS ET HISTORIQUE -->
+                <div
+                    style="
+                        flex: 1.3;
+                        min-width: 320px;
+                    ">
+
+                    <div>
+
+                        <h4>
+                            📋 Mes Récoltes en Ligne
+                        </h4>
+
+                        <div
+                            id="listeSpecifiqueProducteur">
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <h4>
+                            📈 Historique Financier des Gains
+                        </h4>
+
+                        <div>
+                            <span>
+                                Chiffre d'Affaires Cumulé :
+                            </span>
+
+                            <strong id="totalGainsProd">
+                                245 000 FCFA
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     TRANSPORT / MATCHING IA
+========================================================= -->
+<section
+    class="smart-section"
+    id="transport"
+    style="
+        padding: 120px 0;
+        background: linear-gradient(160deg, rgba(247,243,234,0.85) 0%, rgba(85, 69, 85, 0.75) 60%, rgba(31,61,43,0.85)100%);
+        color: #F7F3EA;
+        position: relative;
+        overflow: hidden;
+    ">
+
+    <!-- Texture de fond discrète (optionnelle, remplace par ton image si tu en as une) -->
+    <div style="
+        position: absolute;
+        inset: 0;
+        background-image: url('images/images 3 .jpg');
+        background-size: cover;
+        background-size: center;
+
+        opacity: 0.06;
+        pointer-events: none;
+    "></div>
+
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative;">
+
+        <!-- EN-TÊTE -->
+        <div style="max-width: 620px; margin: 0 auto 64px auto; text-align: center;">
+            <p style="
+                font-family: 'Work Sans', sans-serif;
+                color: #0c0c0c;
+                font-size: 0.95rem;
+                font-weight: 600;
+                margin-bottom: 14px;
+            ">
+                Optimisation du fret routier
+            </p>
+
+            <h2 style="
+                font-family: 'Fraunces', serif;
+                font-size: clamp(2rem, 4vw, 2.8rem);
+                line-height: 1.15;
+                margin-bottom: 18px;
+                color: #F7F3EA;
+            ">
+                Acheminement & transport national, guidé par l'IA
+            </h2>
+
+            <p style="
+                font-family: 'Work Sans', sans-serif;
+                font-size: 1.05rem;
+                line-height: 1.6;
+                color: #080808;
+            ">
+                Une fois vos récoltes commandées, estimez vos frais de
+                livraison et laissez notre moteur intelligent vous
+                connecter avec les transporteurs disponibles.
+            </p>
+        </div>
+
+        <!-- OUVERTURE CONSOLE -->
+        <div style="text-align: center; margin-bottom: 56px;">
+            <button
+                type="button"
+                id="btnActiverLogistique"
+                style="
+                    font-family: 'Work Sans', sans-serif;
+                    background: #03b83f;
+                    color: #F7F3EA;
+                    border: none;
+                    padding: 16px 32px;
+                    border-radius: 999px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: transform 0.2s ease, background 0.2s ease;
+                "
+                onmouseover="this.style.background='#A64E27'; this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.background='#BF5B2E'; this.style.transform='translateY(0)'"
+            >
+                Ouvrir la console logistique intelligente →
+            </button>
+        </div>
+
+        <!-- CONSOLE -->
+        <div
+            id="zoneTechniqueLogistique"
+            style="
+                display: none;
+                gap: 32px;
+                margin-top: 40px;
+                align-items: stretch;
+                flex-wrap: wrap;
+            ">
+
+            <!-- CALCULATEUR -->
+            <div style="
+                flex: 1;
+                min-width: 340px;
+                background: #F7F3EA;
+                border-radius: 20px;
+                overflow: hidden;
+                color: #1F3D2B;
+                display: flex;
+                flex-direction: column;
+            ">
+
+                <!-- Zone image en haut de la carte -->
+                <div style="
+                    height: 140px;
+                    background: linear-gradient(120deg, #4C7A3D, #1F3D2B);
+                    background-image: url('images transport.jpg');
+                    background-size: cover;
+                    background-position: center;
+                ">
+                </div>
+
+                <div style="padding: 36px;">
+
+                    <h4 style="
+                        font-family: 'Fraunces', serif;
+                        font-size: 1.4rem;
+                        margin-bottom: 24px;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    ">
+                        🧮 Calculateur de fret
+                    </h4>
+
+                    <form id="transportForm" style="display: flex; flex-direction: column; gap: 20px;">
+
+                        <label style="font-family: 'Work Sans', sans-serif; font-size: 0.85rem; color: #4C7A3D; font-weight: 600;">
+                            Bassin de collecte
+                            <select id="departLoc" style="
+                                width: 100%;
+                                margin-top: 6px;
+                                padding: 12px 14px;
+                                border-radius: 10px;
+                                border: 1px solid #d9d2c4;
+                                font-family: 'Work Sans', sans-serif;
+                                font-size: 0.95rem;
+                                color: #1F3D2B;
+                                background: #fff;
+                            ">
+                                <option value="Foumbot">Ouest (Foumbot)</option>
+                                <option value="Mbanga">Littoral (Mbanga)</option>
+                                <option value="Mbalmayo">Centre (Mbalmayo)</option>
+                            </select>
+                        </label>
+
+                        <label style="font-family: 'Work Sans', sans-serif; font-size: 0.85rem; color: #4C7A3D; font-weight: 600;">
+                            Ville d'arrivée
+                            <select id="arriveeLoc" style="
+                                width: 100%;
+                                margin-top: 6px;
+                                padding: 12px 14px;
+                                border-radius: 10px;
+                                border: 1px solid #d9d2c4;
+                                font-family: 'Work Sans', sans-serif;
+                                font-size: 0.95rem;
+                                color: #1F3D2B;
+                                background: #fff;
+                            ">
+                                <option value="Douala">Douala</option>
+                                <option value="Yaoundé">Yaoundé</option>
+                                <option value="Bafoussam">Bafoussam</option>
+                            </select>
+                        </label>
+
+                        <div style="display: flex; gap: 14px;">
+                            <label style="flex: 1; font-family: 'Work Sans', sans-serif; font-size: 0.85rem; color: #4C7A3D; font-weight: 600;">
+                                Type de vivres
+                                <select id="chargeType" style="
+                                    width: 100%;
+                                    margin-top: 6px;
+                                    padding: 12px 14px;
+                                    border-radius: 10px;
+                                    border: 1px solid #d9d2c4;
+                                    font-family: 'Work Sans', sans-serif;
+                                    font-size: 0.95rem;
+                                    color: #1F3D2B;
+                                    background: #fff;
+                                ">
+                                    <option value="frais">Produits frais</option>
+                                    <option value="sec">Vivres secs</option>
+                                </select>
+                            </label>
+
+                            <label style="flex: 1; font-family: 'Work Sans', sans-serif; font-size: 0.85rem; color: #4C7A3D; font-weight: 600;">
+                                Poids (tonnes)
+                                <input
+                                    type="number"
+                                    id="poidsTonne"
+                                    value="1"
+                                    min="0.5"
+                                    step="0.5"
+                                    style="
+                                        width: 100%;
+                                        margin-top: 6px;
+                                        padding: 12px 14px;
+                                        border-radius: 10px;
+                                        border: 1px solid #d9d2c4;
+                                        font-family: 'Work Sans', sans-serif;
+                                        font-size: 0.95rem;
+                                        color: #1F3D2B;
+                                    ">
+                            </label>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="btnSimulerTransport"
+                            style="
+                                font-family: 'Work Sans', sans-serif;
+                                background: #1F3D2B;
+                                color: #F7F3EA;
+                                border: none;
+                                padding: 14px;
+                                border-radius: 10px;
+                                font-size: 0.95rem;
+                                font-weight: 600;
+                                cursor: pointer;
+                                margin-top: 8px;
+                            "
+                        >
+                            Estimer les frais de livraison
+                        </button>
+                    </form>
+
+                    <div id="transportResult" style="display: none; margin-top: 24px;"></div>
+                </div>
+            </div>
+
+            <!-- MATCHING IA -->
+            <div
+                class="smart-panel"
+                style="
+                    flex: 1.4;
+                    min-width: 340px;
+                    background: #F7F3EA;
+                    border-radius: 20px;
+                    color: #1F3D2B;
+                    padding: 36px;
+                    display: flex;
+                    flex-direction: column;
+                "
+            >
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <span style="font-family: 'Fraunces', serif; font-size: 1.4rem;">
+                        🤖 Moteur de matching IA logistique
+                    </span>
+
+                    <b id="statusMatching" style="
+                        font-family: 'Work Sans', sans-serif;
+                        font-size: 0.8rem;
+                        background: #4C7A3D;
+                        color: #F7F3EA;
+                        padding: 6px 14px;
+                        border-radius: 999px;
+                    ">
+                        Analyse en cours
+                    </b>
+                </div>
+
+                <div
+                    id="listeTransporteursMatches"
+                    style="display: flex; flex-direction: column; gap: 14px; flex: 1;"
+                ></div>
+
+                <!-- Image bandeau -->
+                <div style="
+                    margin-top: 28px;
+                    height: 700px;
+                    border-radius: 14px;
+                    overflow: hidden;
+                    position: relative;
+                ">
+                    <img
+                        src="images/images transport.jpg"
+                        alt="Transport routier agricole"
+                        style="width: 100%; height: 100%; object-fit: cover;"
+                    >
+                    <div style="
+                        position: absolute;
+                        inset: 0;
+                        background: linear-gradient(0deg, rgba(11,29,14,0.9), transparent 60%);
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+                        padding: 18px;
+                    ">
+                        <span style="font-family: 'Fraunces', serif; color: #F7F3EA; font-size: 1.05rem;">
+                            Traçabilité GPS de l'axe lourd
+                        </span>
+                        <small style="font-family: 'Work Sans', sans-serif; color: #C9D3C7; margin-top: 4px;">
+                            Mbanga · Foumbot · Mbalmayo vers Sandaga & Mfoundi
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     COMMENT ÇA MARCHE
+========================================================= -->
+<section
+    class="how section"
+    id="fonctionnement">
+
+    <div class="container">
+
+        <div class="center-head">
+
+            <span class="section-kicker">
+                COMMENT ÇA MARCHE ?
+            </span>
+
+            <h2>
+                Une chaîne simple,
+                de la production à la livraison
+            </h2>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div>
+
+                <b>01</b>
+                <span>🌾</span>
+
+                <h3>
+                    Le producteur publie
+                </h3>
+
+                <p>
+                    Il présente ses produits,
+                    prix et quantités disponibles.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <b>02</b>
+                <span>🛒</span>
+
+                <h3>
+                    L’acheteur commande
+                </h3>
+
+                <p>
+                    Il recherche, filtre et
+                    passe sa commande.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <b>03</b>
+                <span>🤖</span>
+
+                <h3>
+                    L’IA sélectionne
+                </h3>
+
+                <p>
+                    Le moteur IA analyse les
+                    paramètres du transport.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <b>04</b>
+                <span>🗺️</span>
+
+                <h3>
+                    La livraison est suivie
+                </h3>
+
+                <p>
+                    La livraison est acheminée
+                    et suivie par géolocalisation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     À PROPOS / CTA
+========================================================= -->
+<section
+    class="cta"
+    id="apropos">
+
+    <div class="container cta-inner">
+
+        <div>
+
+            <span class="section-kicker">
+                REJOIGNEZ AGRICONNECT AI
+            </span>
+
+            <h2>
+                Construisons ensemble
+                l’agriculture de demain.
+            </h2>
+
+            <p>
+                Producteur, acheteur ou transporteur :
+                votre place est sur AgriConnect AI.
+            </p>
+
+        </div>
+
+
+        <a
+            class="btn btn-white"
+            href="register.html">
+
+            Commencer maintenant →
+
+        </a>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+<footer
+    class="footer"
+    id="contact">
+
+    <div class="container footer-grid">
+
+
+        <div>
+
+            <a
+                class="brand footer-brand"
+                href="index.html">
+
+                <span class="brand-mark">
+                    🌿
+                </span>
+
+                <span>
+
+                    <b>AgriConnect</b>
+                    <em>AI</em>
+
+                    <small>
+                        L'intelligence artificielle au service
+                        de l'agriculture
+                    </small>
+
+                </span>
+
+            </a>
+
+
+            <p>
+                Une plateforme digitale pour connecter
+                producteurs, acheteurs et transporteurs agricoles.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                Plateforme
+            </h4>
+
+            <a href="#produits">
+                Produits
+            </a>
+
+            <a href="#transport">
+                Transport
+            </a>
+
+            <a href="#fonctionnement">
+                Comment ça marche ?
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                Acteurs
+            </h4>
+
+            <a href="#Producteur">
+                Producteurs
+            </a>
+
+            <a href="#">
+                Acheteurs
+            </a>
+
+            <a href="#transport">
+                Transporteurs
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                Contact
+            </h4>
+
+            <a href="mailto:contact@agriconnect-ai.local">
+                contact@agriconnect-ai.local
+            </a>
+
+            <a href="#">
+                Cameroun
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 AgriConnect AI —
+        Projet de plateforme agricole intelligente.
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+<div
+    id="toast"
+    class="toast">
+</div>
+
+
+<!-- =========================================================
+     MODAL PAIEMENT
+     
+     Les IDs correspondent à la logique JavaScript :
+     - btnOuvrirPaiement
+     - btnFermerPaiement
+     - modalPaiement
+     - formPaiementMoMo
+     - zoneAttentePaiement
+     - montantPaiementModal
+     - numTelephone
+========================================================= -->
+<div
+    id="modalPaiement"
+    style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0,0,0,0.6);
+        z-index: 300000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(4px);
+    ">
+
+    <div style="
+        background: #ffffff;
+        width: 100%;
+        max-width: 400px;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        text-align: center;
+        box-sizing: border-box;
+    ">
+
+        <!-- EN-TÊTE -->
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        ">
+            <h3 style="margin: 0; font-size: 1.15rem; color: #1a1a1a;">
+                Paiement Mobile Money
+            </h3>
+
+            <button
+                id="btnFermerPaiement"
+                type="button"
+                style="
+                    background: none;
+                    border: none;
+                    font-size: 1.4rem;
+                    cursor: pointer;
+                    color: #666;
+                    line-height: 1;
+                ">
+                ✕
+            </button>
+        </div>
+
+        <!-- MONTANT -->
+        <p style="
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 24px;
+        ">
+            Montant à régler :
+            <strong id="montantPaiementModal" style="color: #1a1a1a;">
+                0 FCFA
+            </strong>
+        </p>
+
+        <!-- FORMULAIRE PAIEMENT -->
+        <form id="formPaiementMoMo" style="
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            text-align: left;
+        ">
+
+            <!-- OPÉRATEUR -->
+            <div>
+                <label style="
+                    display: block;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: #333;
+                    margin-bottom: 10px;
+                ">
+                    Sélectionnez votre opérateur :
+                </label>
+
+                <div style="display: flex; gap: 14px;">
+                    <label style="
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        padding: 12px;
+                        cursor: pointer;
+                        font-size: 0.9rem;
+                    ">
+                        <input type="radio" name="operateur" value="MTN" checked>
+                        MTN MoMo 🟡
+                    </label>
+
+                    <label style="
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        padding: 12px;
+                        cursor: pointer;
+                        font-size: 0.9rem;
+                    ">
+                        <input type="radio" name="operateur" value="Orange">
+                        Orange Money 🟠
+                    </label>
+                </div>
+            </div>
+
+            <!-- TÉLÉPHONE -->
+            <div>
+                <label for="numTelephone" style="
+                    display: block;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: #333;
+                    margin-bottom: 8px;
+                ">
+                    Numéro de téléphone (+237) :
+                </label>
+
+                <input
+                    type="tel"
+                    id="numTelephone"
+                    placeholder="Ex : 677889900"
+                    maxlength="9"
+                    pattern="[0-9]{9}"
+                    required
+                    style="
+                        width: 100%;
+                        box-sizing: border-box;
+                        padding: 12px 14px;
+                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        font-size: 0.95rem;
+                        outline: none;
+                    "
+                >
+            </div>
+
+            <!-- CONFIRMATION -->
+            <button
+                type="submit"
+                id="btnLancerTransaction"
+                style="
+                    width: 100%;
+                    box-sizing: border-box;
+                    background: #2e7d32;
+                    color: #fff;
+                    border: none;
+                    padding: 14px;
+                    border-radius: 10px;
+                    font-weight: 700;
+                    font-size: 0.95rem;
+                    cursor: pointer;
+                    margin-top: 6px;
+                "
+            >
+                Confirmer le paiement
+            </button>
+
+        </form>
+
+        <!-- ATTENTE -->
+        <div
+            id="zoneAttentePaiement"
+            style="
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding: 20px 0;
+            ">
+
+            <div style="
+                width: 40px;
+                height: 40px;
+                border: 4px solid #f3f3f3;
+                border-top: 4px solid #2e7d32;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            "></div>
+
+            <p id="texteAttente" style="
+                font-size: 0.92rem;
+                color: #333;
+                margin: 0;
+            ">
+                En attente de votre confirmation sur votre téléphone...
+            </p>
+
+            <small style="color: #888; font-size: 0.78rem;">
+                Veuillez suivre les instructions affichées par votre opérateur.
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     JAVASCRIPT PRINCIPAL UNIQUE
+========================================================= -->
+<script src="js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offres — AgriConnect AI</title>
+<style>
+:root{--bg:#0f1a14;--card:#16241c;--txt:#e8f3ec;--muted:#9bb5a4;--green:#3fb96a}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--txt)}
+header{padding:20px 5%;display:flex;justify-content:space-between;align-items:center}
+header a{color:var(--green);text-decoration:none;font-weight:600}
+main{padding:0 5% 40px}
+h1{margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.filters input,.filters select,.qte input{padding:10px 12px;border-radius:8px;border:1px solid #2a3d31;background:var(--card);color:var(--txt)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.card{background:var(--card);border-radius:14px;padding:18px;border:1px solid #22352a}
+.card h3{margin:0 0 4px}
+.tag{display:inline-block;font-size:12px;background:#1f3a2a;color:var(--green);padding:3px 8px;border-radius:20px;margin-bottom:10px}
+.prix{font-size:22px;font-weight:700;color:var(--green)}
+.meta{color:var(--muted);font-size:14px;margin:6px 0}
+.qte{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:14px;color:var(--muted)}
+.qte input{width:90px}
+button{width:100%;margin-top:12px;padding:10px;border:0;border-radius:8px;background:var(--green);color:#06210f;font-weight:700;cursor:pointer}
+.vide{color:var(--muted);text-align:center;padding:40px;grid-column:1/-1}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html">← Accueil</a>
+  <strong>🌿 AgriConnect AI</strong>
+</header>
+
+<main>
+  <h1>Offres en cours</h1>
+  <p class="sub">Produits disponibles proposés par les producteurs.</p>
+
+  <div class="filters">
+    <input id="recherche" type="search" placeholder="Produit ou producteur">
+    <select id="categorie"><option value="">Toutes les catégories</option></select>
+    <select id="localisation"><option value="">Toutes les localisations</option></select>
+    <input id="prixMax" type="number" min="0" placeholder="Prix max (FCFA/kg)">
+  </div>
+
+  <div id="liste" class="grid"><p class="vide">Chargement...</p></div>
+</main>
+
+<script>
+const API_URL = "http://localhost:3000/api";
+const utilisateur = JSON.parse(sessionStorage.getItem("utilisateur") || "null");
+let offres = [];
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+async function charger() {
+  const liste = document.getElementById("liste");
+  try {
+    const res = await fetch(`${API_URL}/offres`);
+    if (!res.ok) throw new Error();
+    offres = await res.json();
+    remplirFiltre("categorie", "categorie");
+    remplirFiltre("localisation", "localisation");
+    afficher();
+  } catch {
+    liste.innerHTML = '<p class="vide">Impossible de charger les offres. Vérifie que le serveur tourne.</p>';
+  }
+}
+
+function remplirFiltre(idSelect, champ) {
+  const select = document.getElementById(idSelect);
+  [...new Set(offres.map(o => o[champ]).filter(Boolean))]
+    .forEach(v => select.insertAdjacentHTML("beforeend", `<option>${esc(v)}</option>`));
+}
+
+function afficher() {
+  const q = document.getElementById("recherche").value.toLowerCase();
+  const cat = document.getElementById("categorie").value;
+  const loc = document.getElementById("localisation").value;
+  const prixMax = Number(document.getElementById("prixMax").value) || Infinity;
+
+  const filtrees = offres.filter(o =>
+    (!cat || o.categorie === cat) &&
+    (!loc || o.localisation === loc) &&
+    Number(o.prix_unitaire) <= prixMax &&
+    `${o.nom} ${o.producteur_nom} ${o.nom_cooperative || ""}`.toLowerCase().includes(q)
+  );
+
+  const liste = document.getElementById("liste");
+  if (filtrees.length === 0) {
+    liste.innerHTML = '<p class="vide">Aucune offre ne correspond.</p>';
+    return;
+  }
+
+  liste.innerHTML = filtrees.map(o => `
+    <div class="card">
+      <span class="tag">${esc(o.categorie || "Produit")}</span>
+      <h3>${esc(o.nom)}</h3>
+      <div class="prix">${Number(o.prix_unitaire).toLocaleString("fr-FR")} FCFA/kg</div>
+      <div class="meta">📦 ${Number(o.quantite_disponible_kg).toLocaleString("fr-FR")} kg disponibles</div>
+      <div class="meta">👨🏾‍🌾 ${esc(o.nom_cooperative || o.producteur_nom)}</div>
+      <div class="meta">📍 ${esc(o.localisation || "Localisation non renseignée")}</div>
+      ${o.description ? `<div class="meta">${esc(o.description)}</div>` : ""}
+      <div class="meta">Publiée le ${new Date(o.date_publication).toLocaleDateString("fr-FR")}</div>
+      <div class="qte">
+        Quantité (kg)
+        <input id="qte-${o.id_produit}" type="number" min="1" max="${o.quantite_disponible_kg}" value="1">
+      </div>
+      <button onclick="commander(${o.id_produit}, ${o.quantite_disponible_kg})">Commander</button>
+    </div>`).join("");
+}
+
+async function commander(idProduit, stock) {
+  if (utilisateur.role !== "acheteur") {
+    return alert("Seuls les acheteurs peuvent passer commande.");
+  }
+  const quantite = Number(document.getElementById("qte-" + idProduit).value);
+  if (!quantite || quantite < 1 || quantite > stock) {
+    return alert("Choisis une quantité entre 1 et " + stock + " kg.");
+  }
+  try {
+    const res = await fetch(`${API_URL}/commandes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ acheteur_id: utilisateur.id, id_produit: idProduit, quantite })
+    });
+    const data = await res.json();
+    if (!res.ok) return alert(data.erreur || "Erreur lors de la commande.");
+    alert(`Commande n°${data.commande_id} créée : ${Number(data.montant_total).toLocaleString("fr-FR")} FCFA.\nProchaine étape : le paiement.`);
+  } catch {
+    alert("Erreur de connexion au serveur.");
+  }
+}
+
+["recherche", "prixMax"].forEach(id => document.getElementById(id).addEventListener("input", afficher));
+["categorie", "localisation"].forEach(id => document.getElementById(id).addEventListener("change", afficher));
+
+if (!utilisateur) {
+  window.location.href = "login.html";
+} else {
+  charger();
+}
+</script>
+</body>
+</html>
